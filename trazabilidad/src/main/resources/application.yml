@@ -1,0 +1,4 @@
+server:
+  port: 8084
+appDescription: "Microservicio de trazabilidad"
+appVersion: "1.0.0"
