@@ -1,5 +1,6 @@
 package com.reto.trazabilidad.infrastructure.input.rest;
 
+import com.reto.trazabilidad.application.dto.request.TraceabilityRequestDto;
 import com.reto.trazabilidad.application.handler.ITraceabilityHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -25,9 +26,34 @@ public class TraceabilityRestController {
 
     private final ITraceabilityHandler traceabilityHandler;
 
-    @GetMapping("/Hi")
-    public String hi(){
-        return "Trazabilidad";
+
+    @Operation(summary = "Add a new traceability document")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "document created", content = @Content),
+    })
+    @PostMapping("/save")
+    public ResponseEntity<Void> save(@RequestBody TraceabilityRequestDto requestDto) {
+        traceabilityHandler.saveTraceability(requestDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+
+
+    /*
+
+    @Operation(summary = "Get all objects")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All objects returned",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ObjectResponseDto.class)))),
+            @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
+    })
+    @GetMapping("/")
+    public ResponseEntity<List<ObjectResponseDto>> getAllObjects() {
+        return ResponseEntity.ok(objectHandler.getAllObjects());
+    }
+
+     */
+
 
 }

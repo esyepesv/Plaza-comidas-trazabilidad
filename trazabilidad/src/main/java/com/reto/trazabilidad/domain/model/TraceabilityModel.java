@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TraceabilityModel {
-    private Long id;
+    private String id;
     private Long idOrder;
     private Long idClient;
     private String emailClient;

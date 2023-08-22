@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 public class TraceabilityEntity {
     @Id
-    private Long id;
+    private String id;
     private Long idOrder;
     private Long idClient;
     private String emailClient;
