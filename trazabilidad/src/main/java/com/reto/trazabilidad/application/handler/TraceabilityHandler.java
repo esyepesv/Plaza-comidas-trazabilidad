@@ -2,6 +2,7 @@ package com.reto.trazabilidad.application.handler;
 
 import com.reto.trazabilidad.application.dto.request.TraceabilityRequestDto;
 import com.reto.trazabilidad.application.dto.response.TraceabilityResponseDto;
+import com.reto.trazabilidad.application.exceptions.InvalidUserException;
 import com.reto.trazabilidad.application.mapper.ITraceabilityRequestMapper;
 import com.reto.trazabilidad.application.mapper.ITraceabilityResponseMapper;
 import com.reto.trazabilidad.domain.api.ITraceabilityServicePort;
@@ -28,8 +29,10 @@ public class TraceabilityHandler implements ITraceabilityHandler{
     }
 
     @Override
-    public List<TraceabilityResponseDto> getOrderTraceability(Long idOrder) {
+    public List<TraceabilityResponseDto> getOrderTraceability(Long idOrder, Long idClient) {
         List<TraceabilityModel> orderTraceability = traceabilityServicePort.getOrderTraceability(idOrder);
-        return traceabilityResponseMapper.toResponseList(orderTraceability);
+        if (orderTraceability.get(0).getIdClient().equals(idClient)) {
+            return traceabilityResponseMapper.toResponseList(orderTraceability);
+        }else throw new InvalidUserException();
     }
 }

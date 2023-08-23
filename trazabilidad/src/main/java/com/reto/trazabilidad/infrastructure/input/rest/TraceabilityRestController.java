@@ -3,6 +3,7 @@ package com.reto.trazabilidad.infrastructure.input.rest;
 import com.reto.trazabilidad.application.dto.request.TraceabilityRequestDto;
 import com.reto.trazabilidad.application.dto.response.TraceabilityResponseDto;
 import com.reto.trazabilidad.application.handler.ITraceabilityHandler;
+import com.reto.trazabilidad.infrastructure.configuration.security.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,6 +23,7 @@ import java.util.List;
 public class TraceabilityRestController {
 
     private final ITraceabilityHandler traceabilityHandler;
+    private final JwtService jwtService;
 
     @Operation(summary = "Add a new traceability document")
     @ApiResponses(value = {
@@ -33,26 +35,17 @@ public class TraceabilityRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/order/{idOrder}")
-    public ResponseEntity<List<TraceabilityResponseDto>> orderTraceability(@PathVariable Long idOrder){
-        return ResponseEntity.ok(traceabilityHandler.getOrderTraceability(idOrder));
-    }
-
-    /*
-
-    @Operation(summary = "Get all objects")
+    @Operation(summary = "Get the order´s traceability")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "All objects returned",
+            @ApiResponse(responseCode = "200", description = "Traceability returned",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = ObjectResponseDto.class)))),
-            @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
+                            array = @ArraySchema(schema = @Schema(implementation = TraceabilityResponseDto.class)))),
     })
-    @GetMapping("/")
-    public ResponseEntity<List<ObjectResponseDto>> getAllObjects() {
-        return ResponseEntity.ok(objectHandler.getAllObjects());
+    @GetMapping("/order/{idOrder}")
+    public ResponseEntity<List<TraceabilityResponseDto>> orderTraceability(@PathVariable Long idOrder,@RequestHeader("Authorization") String authorizationHeader ){
+        String token = authorizationHeader.substring("Bearer ".length());
+        Long idClient = jwtService.extractId(token);
+        return ResponseEntity.ok(traceabilityHandler.getOrderTraceability(idOrder, idClient));
     }
-
-     */
-
 
 }
