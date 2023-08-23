@@ -23,4 +23,9 @@ public class TraceabilityMongodbAdapter implements ITraceabilityPersistencePort 
     public List<TraceabilityModel> getAll() {
         return null;
     }
+
+    @Override
+    public List<TraceabilityModel> getOrderTraceability(Long idOrder) {
+        return traceabilityEntityMapper.toTraceabilityList(traceabilityRepository.findByIdOrder(idOrder));
+    }
 }

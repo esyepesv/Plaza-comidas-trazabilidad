@@ -25,4 +25,9 @@ public class TraceabilityUseCase implements ITraceabilityServicePort {
     public List<TraceabilityModel> getAll() {
         return traceabilityPersistencePort.getAll();
     }
+
+    @Override
+    public List<TraceabilityModel> getOrderTraceability(Long idOrder) {
+        return traceabilityPersistencePort.getOrderTraceability(idOrder);
+    }
 }

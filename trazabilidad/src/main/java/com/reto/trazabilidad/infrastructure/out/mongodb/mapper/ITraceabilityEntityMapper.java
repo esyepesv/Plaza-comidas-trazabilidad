@@ -5,10 +5,15 @@ import com.reto.trazabilidad.infrastructure.out.mongodb.entity.TraceabilityEntit
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ITraceabilityEntityMapper {
     TraceabilityEntity toEntity(TraceabilityModel traceabilityModel);
-    TraceabilityModel toModel(TraceabilityEntity traceabilityEntity);
+    TraceabilityModel toTraceability(TraceabilityEntity traceabilityEntity);
+
+    List<TraceabilityModel> toTraceabilityList(List<TraceabilityEntity> traceabilityEntityList);
+
 }

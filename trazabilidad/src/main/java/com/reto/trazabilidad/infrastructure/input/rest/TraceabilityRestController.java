@@ -1,6 +1,7 @@
 package com.reto.trazabilidad.infrastructure.input.rest;
 
 import com.reto.trazabilidad.application.dto.request.TraceabilityRequestDto;
+import com.reto.trazabilidad.application.dto.response.TraceabilityResponseDto;
 import com.reto.trazabilidad.application.handler.ITraceabilityHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -11,11 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +22,6 @@ import java.util.List;
 public class TraceabilityRestController {
 
     private final ITraceabilityHandler traceabilityHandler;
-
 
     @Operation(summary = "Add a new traceability document")
     @ApiResponses(value = {
@@ -37,7 +33,10 @@ public class TraceabilityRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
+    @GetMapping("/order/{idOrder}")
+    public ResponseEntity<List<TraceabilityResponseDto>> orderTraceability(@PathVariable Long idOrder){
+        return ResponseEntity.ok(traceabilityHandler.getOrderTraceability(idOrder));
+    }
 
     /*
 

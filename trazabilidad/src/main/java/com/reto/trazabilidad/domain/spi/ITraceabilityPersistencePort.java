@@ -8,4 +8,6 @@ public interface ITraceabilityPersistencePort {
     void saveTraceability(TraceabilityModel traceabilityModel);
 
     List<TraceabilityModel> getAll();
+
+    List<TraceabilityModel> getOrderTraceability(Long idOrder);
 }
